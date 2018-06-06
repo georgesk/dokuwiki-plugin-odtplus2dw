@@ -18,3 +18,4 @@ $meta['parserLinkToOriginalFile'] = array('onoff');
 $meta['parserCoreTimeOut']        = array('numericopt');
 $meta['parserUploadDir']          = array('string');
 $meta['parserMimeTypeAuthorized'] = array('');
+$meta['parserMimeTypeWord']       = array('');
