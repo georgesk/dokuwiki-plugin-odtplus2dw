@@ -20,7 +20,6 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     $controller->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, '_parser', array());
     // Display form hook before the wiki page (on top); Maybe create a param to display the form after the page
     $controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, '_render', array());
-    $controller->register_hook('MENU_ITEMS_ASSEMBLY', 'BEFORE', $this, 'addbutton', array());
     $controller->register_hook('TEMPLATE_PAGETOOLS_DISPLAY', 'BEFORE', $this, 'addbutton', array());
     //Add MENU_ITEMS_ASSEMBLY 
     $controller->register_hook('MENU_ITEMS_ASSEMBLY', 'AFTER', $this, 'addsvgbutton', array());
@@ -50,7 +49,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
   public function addbutton(&$event, $param) {
     global $ID, $REV, $conf;
 
-    if($this->getConf('showimportbutton') && ($event->data['view'] == 'page' || $event->data['view'] == 'main')) {
+    if($this->getConf('showimportbutton') && $event->data['view'] == 'main') {
       $params = array('do' => 'odt2dw');
       if($REV) $params['rev'] = $REV;
 
