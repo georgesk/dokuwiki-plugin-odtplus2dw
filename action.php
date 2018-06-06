@@ -34,8 +34,9 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
   public function addsvgbutton(&$event, $param) {
     global $conf;
 
-    if($this->getConf('showimportbutton') && $event->data['view'] == 'page') 
-      array_unshift($event->data['items'],new \dokuwiki\plugin\odt2dw\MenuItem())
+    if($this->getConf('showimportbutton') && $event->data['view'] == 'page') {
+      array_unshift($event->data['items'],new \dokuwiki\plugin\odt2dw\MenuItem());
+    }
   }
 
 
