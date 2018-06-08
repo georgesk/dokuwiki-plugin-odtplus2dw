@@ -14,7 +14,7 @@ class MenuItem extends AbstractItem {
     /** @var string do action for this plugin */
     protected $type = 'odt2dw';
     /** @var string icon file */
-    protected $svg = __DIR__ . '/writer_icon.svg';
+    protected $svg = __DIR__ . '/writer.svg';
     /**
      * MenuItem constructor.
      */
