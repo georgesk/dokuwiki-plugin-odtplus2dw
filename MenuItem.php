@@ -12,9 +12,9 @@ use dokuwiki\Menu\Item\AbstractItem;
  */
 class MenuItem extends AbstractItem {
     /** @var string do action for this plugin */
-    protected $type = 'odt2dw';
+    public $type = 'odt2dw';
     /** @var string icon file */
-    protected $svg = __DIR__ . '/writer.svg';
+    public $svg = __DIR__ . '/writer.svg';
     /**
      * MenuItem constructor.
      */
