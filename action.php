@@ -349,10 +349,10 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     if ( $this->getConf( 'parserMimeTypeWord' ) != "" && strpos( $this->getConf( 'parserMimeTypeWord' ), $_FILES['odtFile']['type'] ) === true ) {
     	// TODO: Convert to odt
     
-    	$this->odtFileName = $this->userFileName.'.odt';
-    	$this->odtFile = $this->uploadDir.'/'.$this->odtFileName;
+    	$this->odtFileName = $this->userFileName . '.odt';
+    	$this->odtFile = $this->uploadDir . '/' . $this->odtFileName;
 
-      exec('pandoc -w odt -o '.$this->odtFile.' '.$this->userFile);
+      exec('pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile);
 
     }
 
