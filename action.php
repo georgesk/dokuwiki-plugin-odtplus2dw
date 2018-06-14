@@ -342,8 +342,8 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     $this->odtFile = $this->uploadDir.'/'.$this->odtFileName;
     if ( ! move_uploaded_file( $_FILES['odtFile']['tmp_name'], $this->odtFile ) ) return $this->_msg('er_odtFile_getFromDownload');
 
-	$this->userFileName = $this->odtFileName
-    $this->userFile = $this->odtFile
+	  $this->userFileName = $this->odtFileName;
+    $this->userFile = $this->odtFile;
     
     // Add doc/docx support
     if ( $this->getConf( 'parserMimeTypeWord' ) != "" && strpos( $this->getConf( 'parserMimeTypeWord' ), $_FILES['odtFile']['type'] ) === true ) {
@@ -351,6 +351,10 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     
     	// $this->odtFileName = ;
     	// $this->odtFile = ;
+
+      // Borrar esto:
+      $this->userFileName = $this->odtFileName;
+      $this->userFile = $this->odtFile;
     }
 
     // All upload file checking are OK
