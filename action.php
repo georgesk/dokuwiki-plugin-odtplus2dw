@@ -234,7 +234,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     // Transformation du fichier XML
     $this->result = '====== '.basename($this->odtFileName,'.odt').' ======
 ';
-    if ( $this->getConf('parserLinkToOriginalFile') && auth_quickaclcheck($ID) >= AUTH_UPLOAD ) $this->result .= '<sub>{{'.$this->odtFileName.'|'.$this->getLang('parserOriginalFile').'}}</sub>
+    if ( $this->getConf('parserLinkToOriginalFile') && auth_quickaclcheck($ID) >= AUTH_UPLOAD ) $this->result .= '<sub>{{'.$this->userFileName.'|'.$this->getLang('parserOriginalFile').'}}</sub>
 
 ';
 
@@ -332,6 +332,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     if ( $_FILES['odtFile']['error'] > 0 ) return $this->_msg( array( 'er_odtFile_upload', $_FILES['odtFile']['error'] ) );
     // Check the file has an authorized mimetype
     if ( $this->getConf( 'parserMimeTypeAuthorized' ) != "" && strpos( $this->getConf( 'parserMimeTypeAuthorized' ), $_FILES['odtFile']['type'] ) === false ) return $this->_msg( array( 'er_odtFile_format', $_FILES['odtFile']['type'] ) );
+
     // Create an unique temp work dir name
     while ( file_exists( $this->uploadDir = $this->getConf( 'parserUploadDir' ).rand( 10000, 100000 ) ) ) {};
     // Create the directory
@@ -340,6 +341,18 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     $this->odtFileName = $_FILES['odtFile']['name'];
     $this->odtFile = $this->uploadDir.'/'.$this->odtFileName;
     if ( ! move_uploaded_file( $_FILES['odtFile']['tmp_name'], $this->odtFile ) ) return $this->_msg('er_odtFile_getFromDownload');
+
+	$this->userFileName = $this->odtFileName
+    $this->userFile = $this->odtFile
+    
+    // Add doc/docx support
+    if ( $this->getConf( 'parserMimeTypeWord' ) != "" && strpos( $this->getConf( 'parserMimeTypeWord' ), $_FILES['odtFile']['type'] ) === true ) {
+    	// TODO: Convert to odt
+    
+    	// $this->odtFileName = ;
+    	// $this->odtFile = ;
+    }
+
     // All upload file checking are OK
     return true;
   }
@@ -356,6 +369,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     // use @ to catch the system error message
     // If exists, delete the download file
     if ( file_exists( $this->odtFile ) ) if ( ! @unlink( $this->odtFile ) ) $this->_msg( array( 'er_pg_file', $this->odtFile ) );
+    if ( file_exists( $this->userFile ) ) if ( ! @unlink( $this->userFile ) ) $this->_msg( array( 'er_pg_file', $this->userFile ) );
     // Delete each file extracted for the uploaded file
     if ( $this->file_extract ) foreach ($this->file_extract as $file) if ( file_exists( $file ) ) if ( ! @unlink( $file ) ) $this->_msg( array( 'er_pg_file', $file ) );
     // Delete each image would be rename and not move to the wiki
@@ -395,7 +409,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     #   * false -> something wrong; using _msg to display what's wrong
     global $INFO;
     // Save the content in data/page
-    saveWikiText( $this->pageName, $this->result, $this->getLang( 'parserSummary' ).$this->odtFileName );
+    saveWikiText( $this->pageName, $this->result, $this->getLang( 'parserSummary' ).$this->userFileName );
     if ( ! page_exists($this->pageName) ) return $this->_msg('er_apply_content');
     // Check if the user could upload file (ACL : permission lvl 8)
     if ( auth_quickaclcheck($ID) >= AUTH_UPLOAD ) {
@@ -408,9 +422,9 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
         if ( media_upload_finish($this->uploadDir.'/'.$this->pictpath.'/'.$pict, $destFile, $this->nsName, $mime, @file_exists($destFile), 'rename' ) != $this->nsName ) return $this->_msg( array( 'er_apply_img', $this->uploadDir.'/'.$this->pictpath.'/'.$pict ) );
       }
       // Keep the original file (import the upload file in the mediaManager)
-      $destFile = mediaFN( $this->nsName.':'.$this->odtFileName );
-      list( $ext, $mime ) = mimetype( $this->uploadDir.'/'.$this->odtFileName );
-      if ( media_upload_finish($this->uploadDir.'/'.$this->odtFileName, $destFile, $this->nsName, $mime, @file_exists($destFile), 'rename' ) != $this->nsName ) return $this->_msg( array( 'er_apply_odtFile' ) );
+      $destFile = mediaFN( $this->nsName.':'.$this->userFileName );
+      list( $ext, $mime ) = mimetype( $this->uploadDir.'/'.$this->userFileName );
+      if ( media_upload_finish($this->uploadDir.'/'.$this->userFileName, $destFile, $this->nsName, $mime, @file_exists($destFile), 'rename' ) != $this->nsName ) return $this->_msg( array( 'er_apply_odtFile' ) );
     } else {
       // If not allowed to upload, display a message.
       $this->_msg( 'inf_acl_upload', 0, true );

@@ -10,10 +10,10 @@ $conf['logFile']                  = '';                 // log File where $this-
 $conf['formDisplayRule']          = 'odt2dw,edit,show'; // which action will display the odt2dw upload form in newpage
 $conf['showimportbutton']         = 1;
 $conf['formIntroMessage']         = 'default';          // personnalized message - if "default", display the language default message
-$conf['formMaxFileSize']          = 2097152;            // maxsize for upload odtFile
+$conf['formMaxFileSize']          = 2097152;            // maxsize for upload userFile
 $conf['parserPostDisplay']        = 'show';             // which action perform after parsing the odt file
 $conf['parserXslFile']            = 'odt2dw.xsl';       // name of the xslpage use to transform the odtFile
-$conf['parserLinkToOriginalFile'] = 1;                  // display a link to the original odtFile 0=no link; 1=link
+$conf['parserLinkToOriginalFile'] = 1;                  // display a link to the original userFile 0=no link; 1=link
 $conf['parserCoreTimeOut']        = 300;                // the parserCoreTimeOut give specific timeout to parse the xmlFile with the xslFile. Bigger is the odtFile, longer will the parser take.
 $conf['parserUploadDir']          = '/tmp/odt2dw/';     // systeme path where the file will be move after upload but before parse
 $conf['parserMimeTypeAuthorized'] = 'application/vnd.oasis.opendocument.text
