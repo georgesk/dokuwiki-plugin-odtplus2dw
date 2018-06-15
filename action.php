@@ -355,7 +355,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
       $output = array()
       exec( 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile, $output, $return_var );
 
-      return this->_msg (array( 'er_pg_file', 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile.' Retorno: '$return_var );
+      return this->_msg (array( 'er_pg_file', 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile . ' Retorno: ' . $return_var );
     }
 
     // All upload file checking are OK
