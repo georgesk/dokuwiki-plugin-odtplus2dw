@@ -18,7 +18,5 @@ $conf['parserCoreTimeOut']        = 300;                // the parserCoreTimeOut
 $conf['parserUploadDir']          = '/tmp/odt2dw/';     // systeme path where the file will be move after upload but before parse
 $conf['parserMimeTypeAuthorized'] = 'application/vnd.oasis.opendocument.text
 application/octetstream
-application/msword
 application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // mimetype authorized to be upload
-$conf['parserMimeTypeWord'] = 'application/msword
-application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // mimetype that need Word conversion
+$conf['parserMimeTypeWord'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // mimetype that need Word conversion
