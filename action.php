@@ -347,7 +347,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     $this->userFile = substr($this->odtFile, 0);
     
     // Add doc/docx support
-    if ( $this->getConf( 'parserMimeTypeWord' ) != "" && strpos( $this->getConf( 'parserMimeTypeWord' ), $_FILES['odtFile']['type'] ) === true ) {
+    if ( $this->getConf( 'parserMimeTypeWord' ) != "" && strpos( $this->getConf( 'parserMimeTypeWord' ), $_FILES['odtFile']['type'] ) !== false ) {
     
       $this->odtFileName = $this->userFileName.'.odt';
       $this->odtFile = $this->uploadDir.'/'. $this->odtFileName;
