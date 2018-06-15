@@ -56,13 +56,13 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
       switch($conf['template']) {
       case 'dokuwiki':
       case 'arago':
-	$event->data['items']['import_odt'] =
-	  '<li>'
-	  .'<a href='.wl($ID, $params).'  class="action import_odt" rel="nofollow" title="'.$this->getLang('import_odt_button').'">'
-	  .'<span>'.$this->getLang('import_odt_button').'</span>'
-	  .'</a>'
-	  .'</li>';
-	break;
+  $event->data['items']['import_odt'] =
+    '<li>'
+    .'<a href='.wl($ID, $params).'  class="action import_odt" rel="nofollow" title="'.$this->getLang('import_odt_button').'">'
+    .'<span>'.$this->getLang('import_odt_button').'</span>'
+    .'</a>'
+    .'</li>';
+  break;
       }
     }
   }
@@ -343,17 +343,19 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     if ( ! move_uploaded_file( $_FILES['odtFile']['tmp_name'], $this->odtFile ) ) return $this->_msg('er_odtFile_getFromDownload');
 
     // Copiamos los valores
-	  $this->userFileName = substr($this->odtFileName, 0);
+    $this->userFileName = substr($this->odtFileName, 0);
     $this->userFile = substr($this->odtFile, 0);
     
     // Add doc/docx support
     if ( $this->getConf( 'parserMimeTypeWord' ) != "" && strpos( $this->getConf( 'parserMimeTypeWord' ), $_FILES['odtFile']['type'] ) === true ) {
-    	// TODO: Convert to odt
     
-    	$this->odtFileName = $this->userFileName.'.odt';
-    	$this->odtFile = $this->uploadDir.'/'. $this->odtFileName;
+      $this->odtFileName = $this->userFileName.'.odt';
+      $this->odtFile = $this->uploadDir.'/'. $this->odtFileName;
 
-      exec('pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile);
+      exec( 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile );
+
+      // Log. Para borrar después
+      $this->_msg( 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile );
 
     }
 
