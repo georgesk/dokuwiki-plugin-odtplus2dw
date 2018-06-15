@@ -355,7 +355,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
       exec( 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile );
 
       // Log. Para borrar después
-      $this->_msg( 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile );
+      $this->_msg( array( 'er_odtFile_upload', 'pandoc -w odt -o ' . $this->odtFile . ' ' . $this->userFile ) );
 
     }
 
