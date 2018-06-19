@@ -19,4 +19,5 @@ $conf['parserUploadDir']          = '/tmp/odt2dw/';     // systeme path where th
 $conf['parserMimeTypeAuthorized'] = 'application/vnd.oasis.opendocument.text
 application/octetstream
 application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // mimetype authorized to be upload
-$conf['parserMimeTypeWord'] = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // mimetype that need Word conversion
+$conf['parserMimeTypePandoc']     = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'; // mimetype that need Pandoc conversion
+$conf['parserMimeTypeSOffice']    = 'application/msword'; // mimetype that need Word conversion'; // mimetype that need SOffice conversion
