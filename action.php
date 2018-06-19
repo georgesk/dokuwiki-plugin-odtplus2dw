@@ -349,7 +349,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     // Add doc/docx support
     if ( $this->getConf( 'parserMimeTypePandoc' ) != "" && strpos( $this->getConf( 'parserMimeTypePandoc' ), $_FILES['odtFile']['type'] ) !== false ) {
     
-      prepareOdtFileName();
+      $this->_prepareOdtFileName();
 
       $output = array();
       exec( 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile, $output, $return_var );
@@ -360,7 +360,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
 
     if ( $this->getConf( 'parserMimeTypeSOffice' ) != "" && strpos( $this->getConf( 'parserMimeTypeSOffice' ), $_FILES['odtFile']['type'] ) !== false ) {
     
-      prepareOdtFileName();
+      $this->_prepareOdtFileName();
       
       $output = array();
       exec( 'soffice --nofirststartwizard --headless --convert-to odt ' . $this->userFile, $output, $return_var );
