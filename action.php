@@ -347,10 +347,9 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     $this->userFile = substr($this->odtFile, 0);
     
     // Add doc/docx support
-    if ( $this->getConf( 'parserMimeTypeWord' ) != "" && strpos( $this->getConf( 'parserMimeTypeWord' ), $_FILES['odtFile']['type'] ) !== false ) {
+    if ( $this->getConf( 'parserMimeTypePandoc' ) != "" && strpos( $this->getConf( 'parserMimeTypePandoc' ), $_FILES['odtFile']['type'] ) !== false ) {
     
-      $this->odtFileName = $this->userFileName.'.odt';
-      $this->odtFile = $this->uploadDir.'/'. $this->odtFileName;
+      prepareOdtFileName();
 
       $output = array();
       exec( 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile, $output, $return_var );
@@ -359,10 +358,28 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
       # return $this->_msg (array( 'er_pg_file', 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
     }
 
+    if ( $this->getConf( 'parserMimeTypeSOffice' ) != "" && strpos( $this->getConf( 'parserMimeTypeSOffice' ), $_FILES['odtFile']['type'] ) !== false ) {
+    
+      prepareOdtFileName();
+      
+      $output = array();
+      exec( 'soffice --nofirststartwizard --headless --convert-to odt ' . $this->userFile, $output, $return_var );
+
+      # Debug log. Delete
+      # return $this->_msg (array( 'er_pg_file', 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
+    }
+
+
     // All upload file checking are OK
     return true;
   }
+  
+  function _prepareOdtFileName() {
+    $info = pathinfo($this->odtFile);
+    $this->odtFileName = $info['filename'] . '.' .  '.odt';
+    $this->odtFile = $this->uploadDir.'/'. $this->odtFileName;
 
+  }
   function _purge_env() {
     ### _purge_env : clean the system from temporary file ###
     # OUTPUT :
