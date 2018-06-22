@@ -337,6 +337,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     while ( file_exists( $this->uploadDir = $this->getConf( 'parserUploadDir' ).rand( 10000, 100000 ) ) ) {};
     // Create the directory
     if ( ! mkdir( $this->uploadDir, 0777, true ) ) return $this->_msg( 'er_odtFile_tmpDir' );
+    chmod( $this->uploadDir, 0777 );
     // Move the upload file into the work directory
     $this->odtFileName = $_FILES['odtFile']['name'];
     $this->odtFile = $this->uploadDir.'/'.$this->odtFileName;
@@ -354,19 +355,24 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
       $output = array();
       exec( 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile, $output, $return_var );
 
-      # Debug log. Delete
+      # TODO: Debug log. Delete
       # return $this->_msg (array( 'er_pg_file', 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
     }
 
     if ( $this->getConf( 'parserMimeTypeSOffice' ) != "" && strpos( $this->getConf( 'parserMimeTypeSOffice' ), $_FILES['odtFile']['type'] ) !== false ) {
-    
-      $this->_prepareOdtFileName();
-      
-      $output = array();
-      exec( 'soffice --nofirststartwizard --headless --convert-to odt ' . $this->userFile, $output, $return_var );
+      # TODO: Debug log. Delete
+      # exec( 'whoami', $output, $return_var );
+      # $this->_msg (array( 'er_pg_file', 'whoami. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
 
-      # Debug log. Delete
-      # return $this->_msg (array( 'er_pg_file', 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
+
+      $this->_prepareOdtFileName();
+ 
+      $output = array();
+      exec( 'cd ' . $this->uploadDir . ' && sudo -u bitnami soffice --nofirststartwizard --headless --convert-to odt:"writer8" ' . $this->userFileName, $output, $return_var );
+      
+      # TODO: Debug log. Delete
+      # $this->_msg (array( 'er_pg_file', 'soffice --nofirststartwizard --headless --convert-to odt ' . $this->userFileName . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
+      
     }
 
 
@@ -375,16 +381,19 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
   }
   
   function _prepareOdtFileName() {
-    $info = pathinfo($this->odtFile);
-    $this->odtFileName = $info['filename'] . '.' .  '.odt';
+    $info = pathinfo($this->userFile);
+    $this->odtFileName = $info['filename'] . '.odt';
     $this->odtFile = $this->uploadDir.'/'. $this->odtFileName;
-
   }
+
   function _purge_env() {
     ### _purge_env : clean the system from temporary file ###
     # OUTPUT :
     #   void
     # Display some error message if something wrong in the delete process (might delete the file manually)
+
+    // Para evitar limpieza (debug). Hay que comentarlo
+    return;
 
     // Perhaps this would not be needed if use temp dir.
     // No timeOut : the cleanning process wont be interrupted.
