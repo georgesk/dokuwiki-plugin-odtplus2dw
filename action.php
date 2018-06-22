@@ -368,7 +368,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
       $this->_prepareOdtFileName();
  
       $output = array();
-      exec( 'cd ' . $this->uploadDir . ' && sudo -u bitnami soffice --nofirststartwizard --headless --convert-to odt:"writer8" ' . $this->userFileName, $output, $return_var );
+      exec( 'cd ' . $this->uploadDir . ' && sudo soffice --nofirststartwizard --headless --convert-to odt:"writer8" ' . $this->userFileName, $output, $return_var );
       
       # TODO: Debug log. Delete
       # $this->_msg (array( 'er_pg_file', 'soffice --nofirststartwizard --headless --convert-to odt ' . $this->userFileName . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
