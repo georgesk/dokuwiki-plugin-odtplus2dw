@@ -9,8 +9,11 @@
 $lang['debugLvl']                 = "Debug mode -- more verbose : 0-void, 1-Display error, 2-Log&Display error, 3-Log&Display all message";
 $lang['logFile']                  = "Path to the log file";
 $lang['formDisplayRule']          = "Action list where the import file form will be displayed";
-$lang['formIntroMessage']         = "<div>Message shown before the upload form</div><div>  - dokuwiki syntax allowed</div><div>  - Default value : default -> get the message from the default language file</div>";
-$lang['formMaxFileSize']          = "<div>Max file size allowed to upload</div><div>The value must be lower than the Apache max size value</div>";
+$lang['formIntroMessage']         = "<div>Message shown before the upload form</div>
+                                     <div>  - dokuwiki syntax allowed</div>
+                                     <div>  - Default value : default -> get the message from the default language file</div>";
+$lang['formMaxFileSize']          = "<div>Max file size allowed to upload</div>
+                                     <div>The value must be lower than the Apache max size value</div>";
 $lang['parserPostDisplay']        = "Displayed mask after an import";
 $lang['parserXslFile']            = "Name of the xslFile used to transform";
 $lang['parserLinkToOriginalFile'] = "Create a link to original file into the dokuwiki page";
