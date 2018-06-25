@@ -11,7 +11,7 @@
 if(!defined('DOKU_INC')) die();
 if (!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
 
-class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
+class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
 
   /**
   * Registers a callback function for a given event
@@ -36,7 +36,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     global $conf;
 
     if($event->data['view'] == 'page') {
-      array_push($event->data['items'],new \dokuwiki\plugin\odt2dw\MenuItem());
+      array_push($event->data['items'],new \dokuwiki\plugin\odtplus2dw\MenuItem());
     }
   }
 
@@ -51,7 +51,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     global $ID, $REV, $conf;
 
     if($this->getConf('showimportbutton') && $event->data['view'] == 'main') {
-      $params = array('do' => 'odt2dw');
+      $params = array('do' => 'odtplus2dw');
       if($REV) $params['rev'] = $REV;
 
       switch($conf['template']) {
@@ -77,7 +77,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     // Check if the current action is in the action allow table
     if ( strpos( $this->getConf('formDisplayRule'), $event->data) === false ) return;
     // Check if the page exists
-    if ( page_exists( $ID ) && $event->data != "odt2dw" ) return;
+    if ( page_exists( $ID ) && $event->data != "odtplus2dw" ) return;
     if ( page_exists( $ID ) ) echo p_render('xhtml',p_get_instructions( $this->getLang( 'formPageExistMessage' ) ), $info );
     // Check auth user can edit this page
     if ( auth_quickaclcheck( $ID ) < AUTH_EDIT ) return;
@@ -87,25 +87,25 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     if ($message) echo p_render('xhtml',p_get_instructions($message),$info);
     // FIXME create the form with dokuwiki method ?
     echo '<form method="post" action="" enctype="multipart/form-data">
-<fieldset>
-<legend>'.$this->getLang('formLegend').'</legend>
-<input type="hidden" name="MAX_FILE_SIZE" value="'.$this->getConf('formMaxFileSize').'"/>
-<input type="hidden" name="do" value="odt2dw"/>
-<input type="hidden" name="id" value="'.$ID.'"/>
-<input type="file" name="odtFile"/>
-<input type="submit" value="'.$lang['btn_upload'].'"/>
-</fieldset>
-</form>';
-    if ( $event->data == 'odt2dw' ) $event->preventDefault();
+            <fieldset>
+              <legend>'.$this->getLang('formLegend').'</legend>
+              <input type="hidden" name="MAX_FILE_SIZE" value="'.$this->getConf('formMaxFileSize').'"/>
+              <input type="hidden" name="do" value="odtplus2dw"/>
+              <input type="hidden" name="id" value="'.$ID.'"/>
+              <input type="file" name="odtFile"/>
+              <input type="submit" value="'.$lang['btn_upload'].'"/>
+            </fieldset>
+          </form>';
+    if ( $event->data == 'odtplus2dw' ) $event->preventDefault();
   }
 
   function _parser(&$event, $param) {
-    ### _parser : check if a file migth be uploaded, then call the odt2dw converter
+    ### _parser : check if a file migth be uploaded, then call the odtplus2dw converter
     # INPUT : it's a dokuwiki event function
     # OUTPUT : void
 
     // Check action is odt2dw
-    if ( $event->data != 'odt2dw' ) return;
+    if ( $event->data != 'odtplus2dw' ) return;
 
     ###Preparation of the message renderer
     //Set the debug lvl
@@ -124,7 +124,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     $retour = false;
     if ( $_FILES['odtFile'] ) {
       // If parse work, change action to defined one in conf/local.php file
-      $retour = $this->_odt2dw();
+      $retour = $this->_odtplus2dw();
       # Delete temp file
       $this->_purge_env();
     }
@@ -142,8 +142,8 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     ###
   }
 
-  function _odt2dw() {
-    ### _odt2dw : Translate an odt File into dokuwiki syntax
+  function _odtplus2dw() {
+    ### _odtplus2dw : Translate a supported file into dokuwiki syntax
     # OUTPUT :
     #   * true -> process successfully finished
     #   * false -> something wrong; using _msg to display what's wrong
@@ -207,7 +207,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
 
     // Check the xslFile
     if ( ! $this->getConf( 'parserXslFile' ) )  return $this->_msg('er_xslFile_notset');
-    $this->xslFile = DOKU_PLUGIN.'odt2dw/'.$this->getConf('parserXslFile');
+    $this->xslFile = DOKU_PLUGIN.'odtplus2dw/'.$this->getConf('parserXslFile');
     if ( ! file_exists($this->xslFile) ) return $this->_msg('er_xslFile_exists');
     if ( ! is_file($this->xslFile) ) return $this->_msg('er_xslFile_isfile');
 
@@ -338,7 +338,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     while ( file_exists( $this->uploadDir = $this->getConf( 'parserUploadDir' ).rand( 10000, 100000 ) ) ) {};
     // Create the directory
     if ( ! mkdir( $this->uploadDir, 0777, true ) ) return $this->_msg( 'er_odtFile_tmpDir' );
-    // Maybe not required, but we keep it beacause using soffice sometimes is not easy...
+    // Chmod. Maybe not required, but we keep it beacause using soffice sometimes is not easy...
     chmod( $this->uploadDir, 0777 );
     // Move the upload file into the work directory
     $this->odtFileName = $_FILES['odtFile']['name'];
@@ -412,7 +412,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     #   * false -> something wrong; using _msg to display what's wrong
     # _msg info report ( debugLvl >= 2 ) display message about active plugin
 
-    // Gag : I think it s a Nasty way to check plugin - must be rewrite but i don t know how
+    // Gag : I think it s a Nasty way to check plugin - must be rewriten but i don t know how
     $tmp_plugin_lst = plugin_list();
     if ( ! $this->XSLT->importStylesheet( $this->XSL ) ) return $this->_msg('er_xslt_invalid');
     foreach ( array('numberedheadings') as $param ) if ( array_search( $param, $tmp_plugin_lst ) !== false ) {
