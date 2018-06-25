@@ -311,7 +311,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     if ( !$force && $err != -1 && $this->debug < 3 ) return true;
     // Otherwise display the message
     $content = $output.' : '.$this->getLang( $output ).( is_array( $message ) ? ' : '.$message[1] : '' );
-    msg( 'odt2dw : '.$content, $err );
+    msg( 'odtplus2dw : '.$content, $err );
     if ( isset( $this->logFileHandle ) ) fwrite( $this->logFileHandle, date(DATE_ATOM).':'.$_SERVER['REMOTE_USER'].':'.$content.'
 ' );
     // If error message, return false
