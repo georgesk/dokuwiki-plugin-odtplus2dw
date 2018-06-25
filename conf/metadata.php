@@ -3,6 +3,7 @@
  * Options for the odt2dw plugin
  *
  * @author Greg BELLAMY <garlik.crx@gmail.com> [Gag]
+ * @author José Torrecilla <qky669@gmail.com>
  */
 
 

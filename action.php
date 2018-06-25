@@ -4,7 +4,8 @@
  *
  * @license     GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author      Greg BELLAMY <garlik.crx@gmail.com> [Gag]
- * @version     0.08beta
+ * @author      José Torrecilla <qky669@gmail.com>
+ * @version     0.10beta
  */
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
@@ -26,7 +27,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
   }
 
   /**
-   * Add 'import odt'-button to menu
+   * Add 'import'-button to menu
    *
    * @param Doku_Event $event
    * @param mixed      $param not defined
@@ -41,7 +42,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
 
 
   /**
-   * Add 'import odt'-button to pagetools
+   * Add 'import'-button to pagetools
    *
    * @param Doku_Event $event
    * @param mixed      $param not defined
@@ -99,7 +100,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
   }
 
   function _parser(&$event, $param) {
-    ### _parser : check if an odtFile migth be upload than call the odt2dw converter
+    ### _parser : check if a file migth be uploaded, then call the odt2dw converter
     # INPUT : it's a dokuwiki event function
     # OUTPUT : void
 
@@ -144,12 +145,12 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
   function _odt2dw() {
     ### _odt2dw : Translate an odt File into dokuwiki syntax
     # OUTPUT :
-    #   * true -> process successfully
+    #   * true -> process successfully finished
     #   * false -> something wrong; using _msg to display what's wrong
 
     global $ID, $conf;
 
-    //Table use to convert urn to url -> without this, xslProc won t parse correctly
+    //Table use to convert urn to url -> without this, xslProc won't parse correctly
     //Table corrigeant les attributs de la racine du fichier content.xml : urn -> url
     $this->conversion = array(
       "xmlns:office" => "http://openoffice.org/2000/office",
@@ -201,7 +202,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
       if ( auth_quickaclcheck($ID) < AUTH_CREATE ) return $this->_msg('er_acl_create');
     }
 
-    // Check the Odt file uploaded
+    // Check the file uploaded
     if ( ! $this->_checkUploadFile() ) return $this->_msg('er_checkUploadResult');
 
     // Check the xslFile
@@ -337,50 +338,43 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     while ( file_exists( $this->uploadDir = $this->getConf( 'parserUploadDir' ).rand( 10000, 100000 ) ) ) {};
     // Create the directory
     if ( ! mkdir( $this->uploadDir, 0777, true ) ) return $this->_msg( 'er_odtFile_tmpDir' );
+    // Maybe not required, but we keep it beacause using soffice sometimes is not easy...
     chmod( $this->uploadDir, 0777 );
     // Move the upload file into the work directory
     $this->odtFileName = $_FILES['odtFile']['name'];
     $this->odtFile = $this->uploadDir.'/'.$this->odtFileName;
     if ( ! move_uploaded_file( $_FILES['odtFile']['tmp_name'], $this->odtFile ) ) return $this->_msg('er_odtFile_getFromDownload');
 
-    // Copiamos los valores
+    // Pandoc/SOffice support: Set userFile/userFileName to be the same as odtFile/odtFileName were before now
     $this->userFileName = substr($this->odtFileName, 0);
     $this->userFile = substr($this->odtFile, 0);
     
-    // Add doc/docx support
+    // Add Pandoc support
     if ( $this->getConf( 'parserMimeTypePandoc' ) != "" && strpos( $this->getConf( 'parserMimeTypePandoc' ), $_FILES['odtFile']['type'] ) !== false ) {
     
       $this->_prepareOdtFileName();
 
       $output = array();
+      // Conversion to odt file
       exec( 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile, $output, $return_var );
-
-      # TODO: Debug log. Delete
-      # return $this->_msg (array( 'er_pg_file', 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
     }
-
+    
+    // Add SOffice support
     if ( $this->getConf( 'parserMimeTypeSOffice' ) != "" && strpos( $this->getConf( 'parserMimeTypeSOffice' ), $_FILES['odtFile']['type'] ) !== false ) {
-      # TODO: Debug log. Delete
-      # exec( 'whoami', $output, $return_var );
-      # $this->_msg (array( 'er_pg_file', 'whoami. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
-
-
+      
       $this->_prepareOdtFileName();
  
       $output = array();
+      // Conversion to odt file
       exec( 'cd ' . $this->uploadDir . ' && sudo soffice --nofirststartwizard --headless --convert-to odt:"writer8" ' . $this->userFileName, $output, $return_var );
-      
-      # TODO: Debug log. Delete
-      # $this->_msg (array( 'er_pg_file', 'soffice --nofirststartwizard --headless --convert-to odt ' . $this->userFileName . '. Salida: ' . $output[0] . '. Retorno: ' . $return_var ) );
-      
     }
-
 
     // All upload file checking are OK
     return true;
   }
   
   function _prepareOdtFileName() {
+    // Change original extension to ".odt"
     $info = pathinfo($this->userFile);
     $this->odtFileName = $info['filename'] . '.odt';
     $this->odtFile = $this->uploadDir.'/'. $this->odtFileName;
@@ -392,9 +386,6 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     #   void
     # Display some error message if something wrong in the delete process (might delete the file manually)
 
-    // Para evitar limpieza (debug). Hay que comentarlo
-    return;
-
     // Perhaps this would not be needed if use temp dir.
     // No timeOut : the cleanning process wont be interrupted.
     set_time_limit(0);
@@ -404,7 +395,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
     if ( file_exists( $this->userFile ) ) if ( ! @unlink( $this->userFile ) ) $this->_msg( array( 'er_pg_file', $this->userFile ) );
     // Delete each file extracted for the uploaded file
     if ( $this->file_extract ) foreach ($this->file_extract as $file) if ( file_exists( $file ) ) if ( ! @unlink( $file ) ) $this->_msg( array( 'er_pg_file', $file ) );
-    // Delete each image would be rename and not move to the wiki
+    // Delete each image than would be renamed and not moved to the wiki
     if ( $this->file_import ) foreach ( $this->file_import as $file ) if ( file_exists( $this->uploadDir.'/'.$this->pictpath.'/'.$file ) ) if ( ! @unlink( $this->uploadDir.'/'.$this->pictpath.'/'.$file ) ) $this->_msg( array( 'er_pg_file', $this->uploadDir.'/'.$this->pictpath.'/'.$file ) );
     // Delete the Pictures directory
     if ( file_exists( $this->uploadDir.'/'.$this->pictpath) ) if ( ! @rmdir( $this->uploadDir.'/'.$this->pictpath ) ) $this->_msg( array( 'er_pg_dir', $this->uploadDir.'/'.$this->pictpath ) );
@@ -485,7 +476,7 @@ class action_plugin_odt2dw extends DokuWiki_Action_Plugin {
         $other = $value[4];
         if ( $this->_unzip($this->pictpath.'/'.$pict) ) {
           # Do not overwrite existing images
-	  # Hash to see if files are identical, prevents multiple files with same content but different names in media manager
+	        # Hash to see if files are identical, prevents multiple files with same content but different names in media manager
           $newFileHash = hash_file('sha512', $this->uploadDir.'/'.$this->pictpath.'/'.$pict);
           $newFileName = '';
           do {

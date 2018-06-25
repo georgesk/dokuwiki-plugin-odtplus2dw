@@ -6,7 +6,7 @@ use dokuwiki\Menu\Item\AbstractItem;
 /**
  * Class MenuItem
  *
- * Implements the odt import button for DokuWiki's menu system
+ * Implements the import button for DokuWiki's menu system
  *
  * @package dokuwiki\plugin\odt2dw
  */
