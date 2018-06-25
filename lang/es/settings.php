@@ -28,7 +28,7 @@ $lang['parserMimeTypeAuthorized'] = "<div>Mimetypes permitidos para subir</div>
                                          application/msword
                                        </tt>
                                      </div>
-                                     <div><b>application/vnd.oasis.opendocument.text</b> mimetype de archivos.odt común por defecto</div>
+                                     <div><b>application/vnd.oasis.opendocument.text</b> mimetype de archivos .odt común por defecto</div>
                                      <div><b>application/octetstream</b> mimetype usado por Chrome en Windows XP para los archivos .odt</div>
                                      <div><b>application/vnd.openxmlformats-officedocument.wordprocessingml.document</b> mimetype de archivos .docx</div>
                                      <div><b>application/msword</b> mimetype de archivos .doc</div>
