@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-### xsl stylesheet used to convert content.xml file from an odtFile to dokuwiki syntax
+### xsl stylesheet used to convert content.xml file from an odt file to dokuwiki syntax
 @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
 
 @author Greg BELLAMY <garlik.crx@gmail.com> [Gag]

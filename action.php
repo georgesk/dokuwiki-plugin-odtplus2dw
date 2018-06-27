@@ -17,7 +17,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
   * Registers a callback function for a given event
   */
   function register(Doku_Event_Handler $controller) {
-    // OdtFile Parser hook
+    // File Parser hook
     $controller->register_hook('ACTION_ACT_PREPROCESS', 'BEFORE', $this, '_parser', array());
     // Display form hook before the wiki page (on top); Maybe create a param to display the form after the page
     $controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, '_render', array());
@@ -57,10 +57,10 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
       switch($conf['template']) {
       case 'dokuwiki':
       case 'arago':
-  $event->data['items']['import_odt'] =
+  $event->data['items']['import_file'] =
     '<li>'
-    .'<a href='.wl($ID, $params).'  class="action import_odt" rel="nofollow" title="'.$this->getLang('import_odt_button').'">'
-    .'<span>'.$this->getLang('import_odt_button').'</span>'
+    .'<a href='.wl($ID, $params).'  class="action import_file" rel="nofollow" title="'.$this->getLang('import_button').'">'
+    .'<span>'.$this->getLang('import_button').'</span>'
     .'</a>'
     .'</li>';
   break;
@@ -92,7 +92,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
               <input type="hidden" name="MAX_FILE_SIZE" value="'.$this->getConf('formMaxFileSize').'"/>
               <input type="hidden" name="do" value="odtplus2dw"/>
               <input type="hidden" name="id" value="'.$ID.'"/>
-              <input type="file" name="odtFile"/>
+              <input type="file" name="userFile"/>
               <input type="submit" value="'.$lang['btn_upload'].'"/>
             </fieldset>
           </form>';
@@ -122,7 +122,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
 
     // Check upload file defined
     $retour = false;
-    if ( $_FILES['odtFile'] ) {
+    if ( $_FILES['userFile'] ) {
       // If parse work, change action to defined one in conf/local.php file
       $retour = $this->_odtplus2dw();
       # Delete temp file
@@ -184,7 +184,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
       "xmlns:tableooo" => "http://openoffice.org/2009/table",
       "xmlns:css3t" => "http://www.w3.org/TR/css3-text/"
     );
-    // urn wont be/need to convert -- keep for further odtFile version
+    // urn wont be/need to convert -- keep for further odt file version
     // "xmlns:field" => "urn:openoffice:names:experimental:ooo-ms-interop:xmlns:field:1.0",
     //"xmlns:formx" => "urn:openoffice:names:experimental:ooxml-odf-interop:xmlns:form:1.0",
     // CONSTANT : Content file extract from the odt file
@@ -225,8 +225,8 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
     if ( ! ($this->XSL->load( $this->xslFile ) ) ) return $this->_msg('er_loadXsl');
     // Build the xsl processor
     if ( ! $this->_set_xsltProcessor() ) return $this->_msg('er_xsltProc');
-    // Extract content file from odtFile
-    if ( ! $this->_unzip( $this->xmlFile ) ) return $this->_msg('er_odtFile_unzip');
+    // Extract content file from odt file
+    if ( ! $this->_unzip( $this->xmlFile ) ) return $this->_msg('er_file_unzip');
     // Load the xmlFile
     if ( ! $this->XML->load($this->uploadDir.'/'.$this->xmlFile) ) return $this->_msg('er_loadXml');
     if ( ! $this->racine = $this->XML->getElementsByTagName('document-content')->item(0) ) return $this->_msg('er_invalidRoot');
@@ -242,14 +242,14 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
     ### Parameters have been checked successfully ###
 
 
-    // Set specific time out to parse the odtfile into dw syntax
+    // Set specific time out to parse the odt file into dw syntax
     set_time_limit( $this->getConf('parserCoreTimeOut') );
     // Parse the content - This is the CORE
     if ( ! $tmp = html_entity_decode($this->XSLT->transformToDoc( $this->XML )->saveHTML(), ENT_COMPAT, 'UTF-8') ) return $this->_msg('er_transform');
     $this->result .= $tmp;
     // Set the time out to default
     set_time_limit(30);
-    // Extract and store image files from odtFile to Dokuwiki mediaManager
+    // Extract and store image files from odt file to Dokuwiki mediaManager
     $this->_parse_image();
 
     // Store the result
@@ -328,29 +328,30 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
     #   * true -> process successfully
     #   * false -> something wrong; using _msg to display what's wrong
     // Check a file will be upload
-    if ( ! $_FILES['odtFile'] ) return $this->_msg('er_odtFile_miss');
+    if ( ! $_FILES['userFile'] ) return $this->_msg('er_file_miss');
     // Check the file status
-    if ( $_FILES['odtFile']['error'] > 0 ) return $this->_msg( array( 'er_odtFile_upload', $_FILES['odtFile']['error'] ) );
+    if ( $_FILES['userFile']['error'] > 0 ) return $this->_msg( array( 'er_file_upload', $_FILES['userFile']['error'] ) );
     // Check the file has an authorized mimetype
-    if ( $this->getConf( 'parserMimeTypeAuthorized' ) != "" && strpos( $this->getConf( 'parserMimeTypeAuthorized' ), $_FILES['odtFile']['type'] ) === false ) return $this->_msg( array( 'er_odtFile_format', $_FILES['odtFile']['type'] ) );
+    if ( $this->getConf( 'parserMimeTypeAuthorized' ) != "" && strpos( $this->getConf( 'parserMimeTypeAuthorized' ), $_FILES['userFile']['type'] ) === false ) return $this->_msg( array( 'er_file_format', $_FILES['userFile']['type'] ) );
 
     // Create an unique temp work dir name
     while ( file_exists( $this->uploadDir = $this->getConf( 'parserUploadDir' ).rand( 10000, 100000 ) ) ) {};
     // Create the directory
-    if ( ! mkdir( $this->uploadDir, 0777, true ) ) return $this->_msg( 'er_odtFile_tmpDir' );
+    if ( ! mkdir( $this->uploadDir, 0777, true ) ) return $this->_msg( 'er_file_tmpDir' );
     // Chmod. Maybe not required, but we keep it beacause using soffice sometimes is not easy...
     chmod( $this->uploadDir, 0777 );
     // Move the upload file into the work directory
-    $this->odtFileName = $_FILES['odtFile']['name'];
-    $this->odtFile = $this->uploadDir.'/'.$this->odtFileName;
-    if ( ! move_uploaded_file( $_FILES['odtFile']['tmp_name'], $this->odtFile ) ) return $this->_msg('er_odtFile_getFromDownload');
+    $this->userFileName = $_FILES['userFile']['name'];
+    $this->userFile = $this->uploadDir.'/'.$this->userFileName;
+    if ( ! move_uploaded_file( $_FILES['userFile']['tmp_name'], $this->userFile ) ) return $this->_msg('er_file_getFromDownload');
 
-    // Pandoc/SOffice support: Set userFile/userFileName to be the same as odtFile/odtFileName were before now
-    $this->userFileName = substr($this->odtFileName, 0);
-    $this->userFile = substr($this->odtFile, 0);
+    // Pandoc/SOffice support: Set odtFile/odtFileName to be the same as userFile/userFileName. 
+    // Will change later if neccesary
+    $this->odtFileName = substr($this->userFileName, 0);
+    $this->odtFile = substr($this->userFile, 0);
     
     // Add Pandoc support
-    if ( $this->getConf( 'parserMimeTypePandoc' ) != "" && strpos( $this->getConf( 'parserMimeTypePandoc' ), $_FILES['odtFile']['type'] ) !== false ) {
+    if ( $this->getConf( 'parserMimeTypePandoc' ) != "" && strpos( $this->getConf( 'parserMimeTypePandoc' ), $_FILES['userFile']['type'] ) !== false ) {
     
       $this->_prepareOdtFileName();
 
@@ -360,7 +361,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
     }
     
     // Add SOffice support
-    if ( $this->getConf( 'parserMimeTypeSOffice' ) != "" && strpos( $this->getConf( 'parserMimeTypeSOffice' ), $_FILES['odtFile']['type'] ) !== false ) {
+    if ( $this->getConf( 'parserMimeTypeSOffice' ) != "" && strpos( $this->getConf( 'parserMimeTypeSOffice' ), $_FILES['userFile']['type'] ) !== false ) {
       
       $this->_prepareOdtFileName();
  
@@ -447,7 +448,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
       // Keep the original file (import the upload file in the mediaManager)
       $destFile = mediaFN( $this->nsName.':'.$this->userFileName );
       list( $ext, $mime ) = mimetype( $this->uploadDir.'/'.$this->userFileName );
-      if ( media_upload_finish($this->uploadDir.'/'.$this->userFileName, $destFile, $this->nsName, $mime, @file_exists($destFile), 'rename' ) != $this->nsName ) return $this->_msg( array( 'er_apply_odtFile' ) );
+      if ( media_upload_finish($this->uploadDir.'/'.$this->userFileName, $destFile, $this->nsName, $mime, @file_exists($destFile), 'rename' ) != $this->nsName ) return $this->_msg( array( 'er_apply_file' ) );
     } else {
       // If not allowed to upload, display a message.
       $this->_msg( 'inf_acl_upload', 0, true );

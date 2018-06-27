@@ -13,7 +13,7 @@ Cuanto mejor siga las reglas de procesado de textos el archivo, mejor será el r
 $lang['formPageExistMessage'] = "**¡¡¡ADVERTENCIA!!! Esta página ya existe. Si subes un archivo, la página actual será archivada.**
 
 ";
-$lang['import_odt_button'] = "Importar archivo";
+$lang['import_button'] = "Importar archivo";
 
 $lang['parserSummary'] = "Archivo construido por el plugin odtplus2dw a partir de un archivo";
 $lang['parserOriginalFile'] = "Archivo original";
@@ -34,7 +34,7 @@ $lang['er_acl_upload'] = "No tienes permisos suficientes para importar un archiv
 $lang['er_apply'] = "Error guardando los datos analizados";
 $lang['er_apply_content'] = "Imposible guardar el contenido";
 $lang['er_apply_img'] = "Imposible guardar el archivo adjunto";
-$lang['er_apply_odtFile'] = "Imposible guardar el archivo original";
+$lang['er_apply_file'] = "Imposible guardar el archivo original";
 $lang['er_checkUploadResult'] = "Hay algo incorrecto en el archivo subido";
 $lang['er_class_domDocument'] = "Error fatal: Imposible inicializar el objeto DOMDocument";
 $lang['er_class_xsltProcessor'] = "Error fatal: Imposible inicializar el objeto XsltProcessor";
@@ -47,12 +47,12 @@ $lang['er_loadXml'] = "Imposible cargar el contenido del documento. El archivo p
 $lang['er_loadXsl'] = "El archivo xsl es erróneo (sintaxis xml). Por favor, compruébalo y corrige el archivo";
 $lang['er_logFile'] = "Imposible escribir en el archivo de log";
 $lang['er_msg_nomessage'] = "Uso erróneo de este plugin. Se debe llamar a _msg con un mensaje";
-$lang['er_odtFile_format'] = "Archivo subido incorrecto. El Archivo es de un tipo no permitido";
-$lang['er_odtFile_getFromDownload'] = "Imposible capturar el archivo subido";
-$lang['er_odtFile_miss'] = "Uso erróneo de este plugin. Se debe llamar a _odtplus2dw desde un formulario de subida de archivo";
-$lang['er_odtFile_tmpDir'] = "Imposible crear el directorio temporal de trabajo.";
-$lang['er_odtFile_unzip'] = "Imposible extraer el archivo";
-$lang['er_odtFile_upload'] = "Algo fue mal en la subida del archivo";
+$lang['er_file_format'] = "Archivo subido incorrecto. El Archivo es de un tipo no permitido";
+$lang['er_file_getFromDownload'] = "Imposible capturar el archivo subido";
+$lang['er_file_miss'] = "Uso erróneo de este plugin. Se debe llamar a _odtplus2dw desde un formulario de subida de archivo";
+$lang['er_file_tmpDir'] = "Imposible crear el directorio temporal de trabajo.";
+$lang['er_file_unzip'] = "Imposible extraer el archivo";
+$lang['er_file_upload'] = "Algo fue mal en la subida del archivo";
 $lang['er_pg_dir'] = "Imposible eliminar el directorio temporal";
 $lang['er_pg_file'] = "Imposible eliminar el archivo temporal";
 $lang['er_transform'] = "Algo fue mal con el análisis transformando el fichero odt a contenido dokuwiki";

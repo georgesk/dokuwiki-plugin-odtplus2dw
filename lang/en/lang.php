@@ -13,7 +13,7 @@ More the file follows the word processing rules, better will be the result";
 $lang['formPageExistMessage'] = "**WARNING!!! This page already exist. If you upload a file, the current page will be archived.**
 
 ";
-$lang['import_odt_button'] = "Import file";
+$lang['import_button'] = "Import file";
 
 $lang['parserSummary'] = "File build by odtplus2dw plugin from file";
 $lang['parserOriginalFile'] = "Original file";
@@ -34,7 +34,7 @@ $lang['er_acl_upload'] = "Not enough access permissions to import an attachment 
 $lang['er_apply'] = "Error saving the parsed data";
 $lang['er_apply_content'] = "Unable to store the content";
 $lang['er_apply_img'] = "Unable to store the attachment";
-$lang['er_apply_odtFile'] = "Unable to store the original file";
+$lang['er_apply_file'] = "Unable to store the original file";
 $lang['er_checkUploadResult'] = "Something is wrong with the uploaded file";
 $lang['er_class_domDocument'] = "Fatal error: Unable to initialize DOMDocument object";
 $lang['er_class_xsltProcessor'] = "Fatal error: Unable to initialize XsltProcessor object";
@@ -47,15 +47,15 @@ $lang['er_loadXml'] = "Unable to load the content of the document. The file migh
 $lang['er_loadXsl'] = "Xsl file is wrong (xml syntax). Please check and correct the file";
 $lang['er_logFile'] = "Unable to write in the logFile";
 $lang['er_msg_nomessage'] = "Wrong use of this plugin. _msg must be called with a message";
-$lang['er_odtFile_format'] = "Wrong file upload. The file type is not supported";
-$lang['er_odtFile_getFromDownload'] = "Unable to catch the upload file";
-$lang['er_odtFile_miss'] = "Wrong use of this plugin. _odt2dw must be called by an upload file form";
-$lang['er_odtFile_tmpDir'] = "Unable to create the work temporary directory.";
-$lang['er_odtFile_unzip'] = "Unable to extract the file";
-$lang['er_odtFile_upload'] = "Something went wrong with the file's upload";
+$lang['er_file_format'] = "Wrong file upload. The file type is not supported";
+$lang['er_file_getFromDownload'] = "Unable to catch the upload file";
+$lang['er_file_miss'] = "Wrong use of this plugin. _odtplus2dw must be called by an upload file form";
+$lang['er_file_tmpDir'] = "Unable to create the work temporary directory.";
+$lang['er_file_unzip'] = "Unable to extract the file";
+$lang['er_file_upload'] = "Something went wrong with the file's upload";
 $lang['er_pg_dir'] = "Unable to remove the temporary directory";
 $lang['er_pg_file'] = "Unable to delete the temporary file";
-$lang['er_transform'] = "Something went wrong with the parser transforming odtFile to dokuwiki content";
+$lang['er_transform'] = "Something went wrong with the parser transforming odt file to dokuwiki content";
 $lang['er_unzip_error'] = "Unable to extract file";
 $lang['er_unzip_nofile'] = "No archive file found";
 $lang['er_unzip_object'] = "Archive manager not loaded";

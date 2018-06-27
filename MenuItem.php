@@ -30,6 +30,6 @@ class MenuItem extends AbstractItem {
      */
     public function getLabel() {
         $hlp = plugin_load('action', 'odtplus2dw');
-        return $hlp->getLang('import_odt_button');
+        return $hlp->getLang('import_button');
     }
 }

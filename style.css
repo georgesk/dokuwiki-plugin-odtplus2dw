@@ -1,23 +1,23 @@
 /**
- * dw2odt import_odt pagetool icon
+ * dw2odt import_file pagetool icon
  */
 
 /* import icon */
-#dokuwiki__pagetools ul li a.import_odt {
+#dokuwiki__pagetools ul li a.import_file {
     background-position: right 0;
 }
-#dokuwiki__pagetools ul li a.import_odt:before {
+#dokuwiki__pagetools ul li a.import_file:before {
     content: url(pagetools-odtimport-sprite.png);
     margin-top: 0;
 }
-#dokuwiki__pagetools:hover ul li a.import_odt,
-#dokuwiki__pagetools ul li a.import_odt:focus,
-#dokuwiki__pagetools ul li a.import_odt:active {
+#dokuwiki__pagetools:hover ul li a.import_file,
+#dokuwiki__pagetools ul li a.import_file:focus,
+#dokuwiki__pagetools ul li a.import_file:active {
     background-image: url(pagetools-odtimport-sprite.png);
 }
-#dokuwiki__pagetools ul li a.import_odt:hover,
-#dokuwiki__pagetools ul li a.import_odt:active,
-#dokuwiki__pagetools ul li a.import_odt:focus {
+#dokuwiki__pagetools ul li a.import_file:hover,
+#dokuwiki__pagetools ul li a.import_file:active,
+#dokuwiki__pagetools ul li a.import_file:focus {
     background-position: right -45px;
 }
 
