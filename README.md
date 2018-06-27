@@ -1,6 +1,6 @@
-# odtplus2dw
+# odtplus2dw Plugin
 
-odtplus2dw is a plugin for dokuwiki (forked from odt2dw to add doc/docx support).
+Create a dokuwiki page from a file.
 
 - More information about odtplus2dw at http://www.dokuwiki.org/plugin:odtplus2dw
 - More information about odt2dw at http://www.dokuwiki.org/plugin:odt2dw
@@ -8,11 +8,15 @@ odtplus2dw is a plugin for dokuwiki (forked from odt2dw to add doc/docx support)
 
 ## Description
 
-This plugin lets you import a document into Dokuwiki. It supports (at least) .odt, .doc, .docx formats. It should also work with any other document format that pandoc supports, but it has not been tested yet.
+odtplus2dw is a plugin for dokuwiki (forked from odt2dw to add doc/docx support). This plugin lets you import a document into Dokuwiki. It supports (at least) .odt, .doc, .docx formats. It should also work with any other document format that pandoc supports, but it has not been tested yet.
+
+## Usage
+
+From a Dokuwiki page, click on the "Import file" button in the Page Tools. Select a File and click upload.
 
 ## Installation 
 
-This plugin needs:
+**External requirements:** This plugin requires the following additional components that must be installed separately:
 
 - php xsltProcessor class (ex : php-xml, php5-xsl)
 - php zipArchive class
@@ -36,6 +40,10 @@ PHP code (at least in my system) is executed by the user `daemon`. I had problem
 I'm not a security expert, but I think that this should not be a problem for anybody. If you do not use the soffice conversion (.doc support), you don't need to do this.
 
 If PHP code is executed by any other user on your system, you only have to change it in the previous command.
+
+## Configuration and Settings
+
+They are almost self-explanatory.
 
 ## Change Log
 
