@@ -36,8 +36,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
     global $conf;
 
     if($event->data['view'] == 'page') {
-      array_splice($event->data['items'], -1, 0, [new \dokuwiki\plugin\odtplus2dw\MenuItem()]);
-      #array_push($event->data['items'],new \dokuwiki\plugin\odtplus2dw\MenuItem());
+      array_push($event->data['items'],new \dokuwiki\plugin\odtplus2dw\MenuItem());
     }
   }
 
@@ -53,19 +52,18 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
 
     if($this->getConf('showimportbutton') && $event->data['view'] == 'main') {
       $params = array('do' => 'odtplus2dw');
-      if($REV) $params['rev'] = $REV;
-
-      switch($conf['template']) {
-      case 'dokuwiki':
-      case 'arago':
-  $event->data['items']['import_file'] =
-    '<li>'
-    .'<a href='.wl($ID, $params).'  class="action import_file" rel="nofollow" title="'.$this->getLang('import_button').'">'
-    .'<span>'.$this->getLang('import_button').'</span>'
-    .'</a>'
-    .'</li>';
-  break;
+      if($REV) { 
+        $params['rev'] = $REV;
       }
+      
+      $event->data['items'] = array_slice($event->data['items'], 0, -1, true) +
+        array('import_file' =>
+          '<li>'
+          .'<a href='.wl($ID, $params).'  class="action import_file" rel="nofollow" title="'.$this->getLang('import_button').'">'
+          .'<span>'.$this->getLang('import_button').'</span>'
+          .'</a>'
+          .'</li>') +
+        array_slice($event->data['items'], -1, 1, true);
     }
   }
 
