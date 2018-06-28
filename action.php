@@ -36,7 +36,8 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
     global $conf;
 
     if($event->data['view'] == 'page') {
-      array_push($event->data['items'],new \dokuwiki\plugin\odtplus2dw\MenuItem());
+      array_splice($event->data['items'], -1, 0, [new \dokuwiki\plugin\odtplus2dw\MenuItem()]);
+      #array_push($event->data['items'],new \dokuwiki\plugin\odtplus2dw\MenuItem());
     }
   }
 
