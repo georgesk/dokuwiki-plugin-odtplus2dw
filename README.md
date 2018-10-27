@@ -47,6 +47,10 @@ They are almost self-explanatory.
 
 ## Change Log
 
+### v0.11 beta
+
+- Now the names of uploaded files can contain spaces.
+
 ### v0.10 beta
 
 - Changed name to odtplus2dw.

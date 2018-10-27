@@ -1,7 +1,7 @@
 base   odtplus2dw
 author Jose Torrecilla
 email  qky669@gmail.com
-date   2018-06-28
+date   2018-10-27
 name   odtplus2dw plugin
 desc   Create a dokuwiki page from a file
 url    http://www.dokuwiki.org/plugin:odtplus2dw

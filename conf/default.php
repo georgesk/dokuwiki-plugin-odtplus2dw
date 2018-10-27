@@ -6,7 +6,7 @@
  * @author José Torrecilla <qky669@gmail.com>
  */
 
-$conf['debugLvl']                 = 1;                  // debug mode level -- more verbose ( 0: no display; 1: display error msg; 3: display&log error msg all msg; 3: display&log all )
+$conf['debugLvl']                 = 1;                  // debug mode level -- more verbose ( 0: no display; 1: display error msg; 2: display&log error msg; 3: display&log all )
 $conf['logFile']                  = '';                 // log File where $this->_msg write with debugLvl >= 2
 $conf['formDisplayRule']          =                     // which action will display the odtplus2dw upload form in newpage
 'odtplus2dw,edit,show'; 

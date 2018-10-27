@@ -356,7 +356,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
 
       $output = array();
       // Conversion to odt file
-      exec( 'pandoc -s -w odt -o ' . $this->odtFile . ' ' . $this->userFile, $output, $return_var );
+      exec( 'pandoc -s -w odt -o "' . $this->odtFile . '"" "' . $this->userFile . '"', $output, $return_var );
     }
     
     // Add SOffice support
@@ -366,7 +366,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
  
       $output = array();
       // Conversion to odt file
-      exec( 'cd ' . $this->uploadDir . ' && sudo soffice --nofirststartwizard --headless --convert-to odt:"writer8" ' . $this->userFileName, $output, $return_var );
+      exec( 'cd ' . $this->uploadDir . ' && sudo soffice --nofirststartwizard --headless --convert-to odt:"writer8" "' . $this->userFileName . '"', $output, $return_var );
     }
 
     // All upload file checking are OK
