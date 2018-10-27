@@ -356,7 +356,7 @@ class action_plugin_odtplus2dw extends DokuWiki_Action_Plugin {
 
       $output = array();
       // Conversion to odt file
-      exec( 'pandoc -s -w odt -o "' . $this->odtFile . '"" "' . $this->userFile . '"', $output, $return_var );
+      exec( 'pandoc -s -w odt -o "' . $this->odtFile . '" "' . $this->userFile . '"', $output, $return_var );
     }
     
     // Add SOffice support
