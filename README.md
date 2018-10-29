@@ -27,7 +27,7 @@ If you run the Dokuwiki server on Debian, you can accomplish this requirements f
 
 - Install some packages needed:
 
-`sudo apt-get wget default-jre php5-xsl libreoffice-writer`
+`sudo apt-get install wget default-jre php5-xsl libreoffice-writer`
 
 - If you wish, you can execute the script `installLatestPandoc.sh` (included with this plugin) to install the latest version of pandoc. Or you can install pandoc any other way (check that version installed is not very outdated, or the conversion can fail).
 
