@@ -50,6 +50,7 @@ They are almost self-explanatory.
 ### v0.11 beta
 
 - Now the names of uploaded files can contain spaces.
+- Added French translation (thank you jmgfr!).
 
 ### v0.10 beta
 
