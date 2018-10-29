@@ -1,6 +1,6 @@
 <?php
 /**
- * English language setting file
+ * French language setting file
  *
  * @author Greg BELLAMY <garlik.crx@gmail.com> [Gag]
  * @author José Torrecilla <qky669@gmail.com>
