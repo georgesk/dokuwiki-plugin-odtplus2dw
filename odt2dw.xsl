@@ -347,7 +347,7 @@ Source :
   <xsl:template match="//draw:image">
     <!--<xsl:text disable-output-escaping="yes" >{{</xsl:text>
     <xsl:value-of select="substring-after(@xlink:href,'/')"/>
-    <xsl:text disable-output-escaping="yes" >}}</xsl:text>-->
+    <xsl:text disable-output-escaping="yes" >}}GRRR</xsl:text>-->
   </xsl:template>
 
   <!-- Mise en forme des balises span et p
