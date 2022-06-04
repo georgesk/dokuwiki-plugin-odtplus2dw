@@ -348,6 +348,7 @@ Source :
     <!--<xsl:text disable-output-escaping="yes" >{{</xsl:text>
     <xsl:value-of select="substring-after(@xlink:href,'/')"/>
     <xsl:text disable-output-escaping="yes" >}}</xsl:text>-->
+    GRRR
   </xsl:template>
 
   <!-- Mise en forme des balises span et p
