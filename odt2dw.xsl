@@ -347,7 +347,6 @@ Source :
   <xsl:template match="//draw:image">
     <!--<xsl:text disable-output-escaping="yes" >{{</xsl:text>
     <xsl:value-of select="substring-after(@xlink:href,'/')"/>
-    GRRR
     <xsl:text disable-output-escaping="yes" >}}</xsl:text>-->
   </xsl:template>
 
