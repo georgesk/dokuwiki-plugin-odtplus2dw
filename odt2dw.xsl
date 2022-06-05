@@ -337,7 +337,7 @@ Source :
 	 renvoie la nième chaine, après séparation par le séparateur 
 
 	 paramètres :
-	 ------------
+	 ===========
 	 string : une chaîne
 	 n :      un index, 0 par défaut
 	 sep :    un séparateur, "§" par défaut
