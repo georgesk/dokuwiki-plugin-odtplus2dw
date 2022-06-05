@@ -1,5 +1,5 @@
 base   odtplus2dw
-author Jose Torrecilla
+author Jose Torrecilla, contributor Georges Khaznadar
 email  qky669@gmail.com
 date   2018-10-27
 name   odtplus2dw plugin
