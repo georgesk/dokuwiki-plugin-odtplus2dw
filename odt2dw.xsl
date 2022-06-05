@@ -331,6 +331,66 @@ Source :
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template name="neme-split">
+    <!-- Georges Khaznadar <georgesk@debian.org>, 2022-06-05
+
+	 renvoie la nième chaine, après séparation par le séparateur 
+
+	 paramètres :
+	 ------------
+	 string : une chaîne
+	 n :      un index, 0 par défaut
+	 sep :    un séparateur, "§" par défaut
+	 depth:   la profondeur d'appel récursif, 0 par défaut
+    -->
+    <xsl:param name="string"/>
+    <xsl:param name="n" select="0"/>
+    <xsl:param name="sep" select="'§'"/>
+    <xsl:param name="depth" select="0"/>
+    <xsl:choose>
+      <xsl:when test="not (contains($string, $sep))">
+	<xsl:value-of select="$string"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<xsl:variable name="prefix" select="substring-before($string, $sep)"/>
+	<xsl:variable name="suffix" select="substring-after($string, $sep)"/>
+	<xsl:choose>
+	  <xsl:when test="$n = $depth">
+	    <xsl:value-of select="$prefix"/>
+	  </xsl:when>
+	  <xsl:otherwise>
+	    <xsl:call-template name="neme-split">
+	      <xsl:with-param name="string" select="$suffix"/>
+	      <xsl:with-param name="n" select="$n"/>
+	      <xsl:with-param name="sep" select="$sep"/>
+	      <xsl:with-param name="depth" select="($depth+1)"/>
+	    </xsl:call-template>
+	  </xsl:otherwise>
+	</xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="texmaths" match="//draw:g">
+    <!-- Georges Khaznadar <georgesk@debian.org>, 2022-06-05
+
+	 traite les formules entrées par le plugin TexMaths de LibreOffice
+	 pour que MathJax puisse les afficher proprement
+    -->
+    <xsl:variable name="title" select="svg:title"/>
+    <xsl:if test="$title = 'TexMaths'">
+      <xsl:text disable-output-escaping="yes">$</xsl:text>
+      <!-- troisième élément de svg:desc après séparation par les "§" -->
+      <xsl:call-template name="neme-split">
+	<xsl:with-param name="string" select="svg:desc"/>
+	<xsl:with-param name="n" select="2"/>
+	<xsl:with-param name="sep" select="'§'"/>
+      </xsl:call-template>
+      <xsl:text disable-output-escaping="yes">$</xsl:text>
+
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template match="//draw:frame">
     <xsl:param name="cmtopx" value="37.795275591"/>
     <xsl:text disable-output-escaping="yes" >{{</xsl:text>
@@ -348,7 +408,6 @@ Source :
     <!--<xsl:text disable-output-escaping="yes" >{{</xsl:text>
     <xsl:value-of select="substring-after(@xlink:href,'/')"/>
     <xsl:text disable-output-escaping="yes" >}}</xsl:text>-->
-    GRRR
   </xsl:template>
 
   <!-- Mise en forme des balises span et p
